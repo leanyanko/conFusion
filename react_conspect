@@ -1,0 +1,33 @@
+//containment - to apply filters - gives a control what to render
+
+
+// more control
+//components more reusable
+// components are generic
+//code is easier to test
+
+
+
+//State Hosting
+//events in children components cause data to change
+//state passed to container parent
+//acheved by passing a callback as prop to child components
+
+
+
+class NameContainer extends reduceEachTrailingCommentRange.Component {
+    constructor ();
+}
+
+//jsx spread attributies
+//syntactic sugar for passing of an object's properties as jsx attributes
+
+
+//Distructuring Arguments
+
+const Greeting = ({name}) => 3;
+
+
+//Styled components
+import styled from 'styled-components'
+const Title = styled.h1'font-size : 1.5em; color: purple;';
