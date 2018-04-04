@@ -5,7 +5,7 @@ import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 //import {MatM} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
-import {MatToolbarModule} from '@angular/material';
+import {MatToolbarModule, MatCheckboxModule, MatInputModule} from '@angular/material';
 import {MatListModule} from '@angular/material/list';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
@@ -28,6 +28,12 @@ import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
  
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { LoginComponent } from './login/login.component';
+
+import {MatDialogModule, MatDialogRef } from '@angular/material';
+//import {MatDialog, MAT_DIALOG_DATA} from '@angular/material';
+import { FormsModule } from '@angular/forms'; 
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -39,7 +45,8 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     FooterComponent,
     HomeComponent,
     AboutComponent,
-    ContactComponent
+    ContactComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -50,12 +57,22 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     MatGridListModule,
     MatCardModule,
     MatButtonModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatDialogModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatCheckboxModule,
+    MatInputModule
   ],
   providers: [
     DishService,
     PromotionService,
-    LeaderService
+    LeaderService,
+    //MatDialogModule
+   // {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
+  ],
+  entryComponents:[
+    LoginComponent
   ],
   bootstrap: [AppComponent]
 })
