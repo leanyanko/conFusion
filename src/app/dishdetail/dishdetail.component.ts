@@ -1,12 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { Dish } from '../shared/dish';
-
-import {Params, ActivatedRoute} from '@angular/router';
-
-import { Location } from '@angular/common';
-
 import { DishService } from '../services/dish.service';
+
+import { Params, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-dishdetail',
@@ -24,6 +22,7 @@ export class DishdetailComponent implements OnInit {
 
   ngOnInit() {
     let id = +this.route.snapshot.params['id'];
+    console.log(id);
     this.dish = this.dishService.getDish(id);
   }
 
