@@ -5,7 +5,7 @@ import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 //import {MatM} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
-import {MatToolbarModule, MatCheckboxModule, MatInputModule, MatSelectModule} from '@angular/material';
+import {MatToolbarModule, MatCheckboxModule, MatInputModule, MatSelectModule, MatProgressSpinnerModule} from '@angular/material';
 import {MatListModule} from '@angular/material/list';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
@@ -68,7 +68,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatInputModule,
     ReactiveFormsModule,
     MatSlideToggleModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     DishService,
