@@ -44,22 +44,36 @@
             dividerColor="{{ (feedbackForm.get('firstname').hasError('required') && feedbackForm.get('firstname').touched) ? 'warn' : 'primary' }}">
               <input matInput formControlName="firstname" placeholder="FirstName" type="text" required>
               <mat-hint>
-                <span [hidden]="!(feedbackForm.get('firstname').hasError('required') && feedbackForm.get('firstname').touched)">
-                  This field is required!
+                <span [hidden]="!(formErrors.firstname)">
+                  {{formErrors.firstname}}
                 </span>
               </mat-hint>
             </mat-input-container>
 
-            <mat-input-container class="half-width">
+            <mat-input-container class="half-width"  dividerColor="{{ formErrors.lastname ? 'warn' : 'primary' }}">
                 <input matInput formControlName="lastname" placeholder="LastName" type="text"  required>
+                <mat-hint>
+                    <span [hidden]="!(formErrors.lastname)">
+                      {{formErrors.lastname}}</span>
+                </mat-hint>
+
+
             </mat-input-container>
 
             <mat-input-container class="half-width">
-                <input matInput formControlName="telnum" placeholder="Tel. Num" type="tel" >
+                <input matInput formControlName="telnum" placeholder="Tel. Num" pattern="[0-9]*" type="tel" >
+                <mat-hint>
+                    <span [hidden]="!(formErrors.telnum)">
+                      {{formErrors.telnum}}</span>
+                </mat-hint>
             </mat-input-container>
 
             <mat-input-container class="half-width">
-                <input matInput formControlName="email" placeholder="email" type="email" required>
+                <input matInput formControlName="email" placeholder="email" type="email" email required>
+                <mat-hint>
+                    <span [hidden]="!(formErrors.email)">
+                      {{formErrors.email}}</span>
+                </mat-hint>
             </mat-input-container>
           </p>
 

@@ -20,6 +20,8 @@
         </mat-card-content>
 
         <mat-card-actions>
+            <button mat-buttonn [routerLink]="['/dishdetail', prev]"><span class="fa fa-chevron-left fa-lg"></span></button>
+            <button mat-buttonn [routerLink]="['/dishdetail', next]"><span class="fa fa-chevron-right fa-lg"></span></button>
             <button mat-buttonn (click)="goBack()">BACK</button>
             <button mat-buttonn>LIKE</button>
             <button mat-buttonn>SHARE</button>
@@ -29,7 +31,6 @@
   </div>
 
   <div fxFlex="40" *ngIf="dish">
-    <p>Display the list of comments here</p>
     <mat-card>
         <mat-card-header>
             <mat-card-title>
@@ -45,11 +46,63 @@
                     <p mat-line> --{{ comment.author}} ,  {{comment.date | date}} </p>
 
                 </mat-list-item>
+
+                <mat-list-item *ngIf="commentForm.value.author || commentForm.value.comment">
+                    <p mat-line>  {{ commentForm.value.comment }} </p>
+                    <p mat-line>{{commentForm.value.rating }} Stars</p>
+                    <p mat-line> --{{ commentForm.value.author}}</p>
+
+                </mat-list-item>
               </mat-list>
           </mat-card-content>
+          <mat-card-footer>
+            
+                      <h2>Leave your comment</h2>
+
+            <form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+                <mat-slider formControlName="rating" thumbLabel min="1" max="5" step="1" value="5"></mat-slider>
+              <p>
+                <mat-input-container class="half-width" dividerColor="{{ formErrors.author ? 'warn' : 'primary' }}">
+                  <input matInput formControlName="author" placeholder="Your name" type="text" required>
+                  <mat-hint>
+                    <span [hidden]="!(formErrors.author)">
+                      {{formErrors.author}}
+                    </span>
+                  </mat-hint>
+                </mat-input-container>
+              </p>
+  
+                <mat-input-container class="full-width" dividerColor="{{ formErrors.comment ? 'warn' : 'primary' }}">   
+                    <textarea matInput formControlName="comment" placeholder="Type your comment here"></textarea>
+                    <mat-hint>
+                        <span [hidden]="!(formErrors.comment)">
+                          {{formErrors.comment}}
+                        </span>
+                      </mat-hint>
+                  </mat-input-container>
+
+
+        
+                <button type="submit" mat-bytton class="background-primary text-floral-white"
+                  [disabled]="commentForm.invalid">Send</button>
+            </form>
+          
+          </mat-card-footer>
 
     </mat-card>
+    
   </div>
+
+        <div fxFlex fxFlexOffset="20px" class="form-size">
+
+            
+  
+          </div>
+
+  
+
+    
+
   <div [hidden]="dish">
       <mat-spinner></mat-spinner> <h4>Loading...Please, wait</h4>
   </div> 
