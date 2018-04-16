@@ -37,8 +37,12 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 
 import { ReactiveFormsModule } from '@angular/forms';  // <-- #1 import module
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { HttpModule } from '@angular/http';
 
+import { baseURL } from './shared/baseurl';
+import { ProcessHttpmsgService } from './services/process-httpmsg.service'
 @NgModule({
+
   declarations: [
     AppComponent,
     MenuComponent,
@@ -70,12 +74,15 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatSlideToggleModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    MatSliderModule
+    MatSliderModule,
+    HttpModule
   ],
   providers: [
     DishService,
     PromotionService,
     LeaderService,
+    { provide: 'BaseURL', useValue: baseURL },
+    ProcessHttpmsgService
     //MatDialogModule
    // {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],

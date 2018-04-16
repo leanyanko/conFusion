@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 
 import { Dish } from '../shared/dish';
 import { DISHES } from '../shared/dishes';
@@ -25,6 +25,7 @@ export class DishdetailComponent implements OnInit {
   prev: number;
   next: number;
   started: boolean = false;
+  errMsg: string;
 
   commentForm: FormGroup;
   comment: Comment;
@@ -51,7 +52,8 @@ export class DishdetailComponent implements OnInit {
   constructor(private dishService: DishService, 
               private location: Location,
               private route: ActivatedRoute,
-              private fb: FormBuilder ) {
+              private fb: FormBuilder,
+              @Inject('BaseURL') private BaseURL ) {
                 this.createForm();
                }
 
@@ -59,7 +61,8 @@ export class DishdetailComponent implements OnInit {
    this.dishService.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
    this.route.params
      .switchMap((params: Params) =>  this.dishService.getDish(+params['id']))
-     .subscribe(dish => { this.dish = dish, this.setPrevNext(dish.id); });    
+     .subscribe(dish => { this.dish = dish, this.setPrevNext(dish.id); },
+                errmess => this.errMsg = <any>errmess);    
   }
 
   createForm(){
@@ -70,7 +73,7 @@ export class DishdetailComponent implements OnInit {
     this.commentForm = this.fb.group({
       comment: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
       author: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
-      rating: 0,
+      rating: 5,
       date: d
     });
 
@@ -105,7 +108,7 @@ export class DishdetailComponent implements OnInit {
     this.commentForm.reset({
       author:'',
       comment:'',
-      rating: 0,
+      rating: 5,
       date: date
     });
     console.log(this.comment);
