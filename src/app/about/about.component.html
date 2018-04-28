@@ -58,7 +58,7 @@
 
           <mat-list>
               <mat-list-item *ngFor="let leader of leaders">
-                  <img mat-list-avatar height="40px" src="{{ leader.image }}" alt="{{ leader.name }}">
+                  <img mat-list-avatar height="40px" src="{{BaseURL + leader.image }}" alt="{{ leader.name }}">
                  
                   
                     <p matLine>{{ leader.name }} {{ leader.abbr }}</p>
@@ -68,7 +68,10 @@
               </mat-list-item>
             </mat-list>
        </div>
-       <div [hidden]="leaders">
+       <div [hidden]="leaders || errMsgLead">
           <mat-spinner></mat-spinner> <h4>Loading...Please, wait</h4>
         </div> 
+        <div *ngIf="errMsgLead">
+          <h4>{{errMsgLead}}</h4>
+       </div> 
 </div>

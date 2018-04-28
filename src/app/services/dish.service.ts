@@ -19,9 +19,8 @@ import { RestangularModule, Restangular} from 'ngx-restangular';
 @Injectable()
 export class DishService {
 
-  constructor(private restangular: Restangular, private processHttpmsgService: ProcessHttpmsgService) { }
-
-
+  constructor(private restangular: Restangular, 
+              private processHttpmsgService: ProcessHttpmsgService) { }
 
   getDishes(): Observable<Dish[]> {
      return this.restangular.all('dishes').getList();

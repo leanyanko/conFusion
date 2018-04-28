@@ -1,8 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validator, Validators } from '@angular/forms';
 import { Feedback, ContactType} from '../shared/feedback';
 import { flyInOut } from '../animations/app.animation';
+import { baseURL } from '../shared/baseurl';
+
+import { FeedbackService } from '../services/feedback.service';
+
+import { Params, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import 'rxjs/add/operator/switchmap';
+
 
 @Component({
   selector: 'app-contact',
@@ -21,6 +29,20 @@ export class ContactComponent implements OnInit {
   feedbackForm: FormGroup;
   feedback: Feedback;
   contactType = ContactType;
+
+  // feedbackcopy = null;
+  // feedbackIds: number[];
+  // prev: number;
+  // next: number;
+  // started: boolean = false;
+  // errMsg: string;
+  // visibility = 'shown';
+
+  feedbackReceived : Feedback;
+
+  showSpinner:boolean=false;
+  feedbackErrMess : string;
+
   formErrors = {
     'firstname'  : '',
     'lastname' : '',
@@ -49,11 +71,25 @@ export class ContactComponent implements OnInit {
     },
   };
 
-  constructor(private fb: FormBuilder) {
-    this.createForm();
+  constructor(private fb: FormBuilder,
+              private feedbackService: FeedbackService,
+              private location: Location,
+              private route: ActivatedRoute,
+              @Inject('BaseURL') private BaseURL) {
+    
    }
 
   ngOnInit() {
+    this.createForm();
+  //   this.feedbackService.getFeedbackIds().subscribe(feedbackIds => this.feedbackIds = feedbackIds);
+  //  this.route.params
+  //    .switchMap((params: Params) =>  { 
+  //      this.visibility = 'hidden'; 
+  //      return this.feedbackService.getFeedback(+params['id']); 
+  //     })
+  //    .subscribe(feedback => { this.feedback = feedback; this.feedbackcopy = feedback; this.setPrevNext(feedback.id); this.visibility = 'shown'; },
+  //               errmess => this.errMsg = <any>errmess);    
+
   }
 
   createForm() {
@@ -66,10 +102,6 @@ export class ContactComponent implements OnInit {
       contacttype: 'None',
       message: ''
     });
-
-    // this.feedbackForm.valueChanges
-    // .subscribe(data => this.onValueChanged(data));
-    // this.onValueChanged();
     this.feedbackForm.valueChanges
     .subscribe(data => this.onValueChanged(data));
 
@@ -92,9 +124,48 @@ export class ContactComponent implements OnInit {
     }
   }
 
+
+  // setPrevNext(dishId: number) {
+  //   let index = this.feedbackIds.indexOf(dishId);
+  //   this.prev = this.feedbackIds[(this.feedbackIds.length + index - 1)%this.feedbackIds.length];
+  //   this.next = this.feedbackIds[(this.feedbackIds.length + index + 1)%this.feedbackIds.length];
+  // }
+
+  goBack(): void{
+    this.location.back();
+  }
+
+
   onSubmit(){
     this.feedback = this.feedbackForm.value;
+
+    // this.feedbackcopy.push(this.feedback);
+    // this.feedbackcopy.save()
+    // .subscribe(feedback => this.feedback = feedback);
+    this.showSpinner = true;
+    this.feedbackService.submitFeedback(this.feedback)
+    .subscribe(feedback => {
+      this.feedbackReceived = feedback; 
+      this.showSpinner =false;
+      setTimeout(( ) => {
+        this.feedbackReceived =null;
+        this.feedbackForm.reset({
+          firstname: '',
+          lastname: '',
+          telnum: '',
+          email: '',
+          agree: false,
+          contacttype: 'None',
+          message: ''
+        });
+      }, 5000)
+
+    }
+    , errMess => this.feedbackErrMess = errMess);  
+
     console.log(this.feedback);
+
+  //  console.log(this.feedback);
     this.feedbackForm.reset({
       firstname: '',
       lastname: '', 
